@@ -61,6 +61,7 @@ import org.gradle.internal.instantiation.ClassGenerationException;
 import org.gradle.internal.instantiation.InjectAnnotationHandler;
 import org.gradle.internal.instantiation.InstanceGenerator;
 import org.gradle.internal.instantiation.PropertyRoleAnnotationHandler;
+import org.gradle.internal.instantiation.generator.annotations.ManagedObjectCreator;
 import org.gradle.internal.logging.text.TreeFormatter;
 import org.gradle.internal.reflect.ClassDetails;
 import org.gradle.internal.reflect.ClassInspector;
@@ -113,7 +114,7 @@ abstract class AbstractClassGenerator implements ClassGenerator {
      * Types that are allowed to be instantiated directly by Gradle when exposed as a getter on a type.
      *
      * @implNote Keep in sync with platforms/documentation/docs/src/docs/userguide/authoring-builds/gradle-properties/properties_providers.adoc
-     * @see ManagedObjectFactory#newInstance
+     * @see ManagedObjectCreator
      */
     private static final ImmutableSet<Class<?>> MANAGED_PROPERTY_TYPES = ImmutableSet.of(
         ConfigurableFileCollection.class,
