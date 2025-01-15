@@ -105,17 +105,6 @@ abstract class ProviderCompatibleBaseExecSpecTestBase extends Specification {
         thrown UnsupportedOperationException
     }
 
-    def "spec without working directory doesn't set it on parameters"() {
-        given:
-        def parameters = newParameters()
-
-        when:
-        specUnderTest.copyToParameters(parameters)
-
-        then:
-        !parameters.getWorkingDirectory().isPresent()
-    }
-
     def "spec with working directory sets it on parameters"(Consumer<BaseExecSpec> configureAction) {
         given:
         def parameters = newParameters()

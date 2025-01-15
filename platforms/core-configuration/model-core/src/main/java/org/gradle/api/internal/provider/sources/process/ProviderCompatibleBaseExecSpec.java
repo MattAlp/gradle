@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.provider.sources.process;
 
-import org.gradle.api.file.Directory;
 import org.gradle.api.provider.Property;
 import org.gradle.process.BaseExecSpec;
 
@@ -26,11 +25,9 @@ import java.io.OutputStream;
 abstract class ProviderCompatibleBaseExecSpec<T extends BaseExecSpec> implements DelegatingBaseExecSpec {
 
     private final T delegate;
-    private final Directory defaultWorkingDir;
 
     public ProviderCompatibleBaseExecSpec(T baseExecSpec) {
         this.delegate = baseExecSpec;
-        this.defaultWorkingDir = delegate.getWorkingDir().get();
     }
 
     @Override
@@ -56,11 +53,7 @@ abstract class ProviderCompatibleBaseExecSpec<T extends BaseExecSpec> implements
     public void copyToParameters(ProcessOutputValueSource.Parameters parameters) {
         parameters.getCommandLine().set(getCommandLine());
         parameters.getEnvironment().set(getEnvironment());
-        // TODO(mlopatkin): Check this logic for Gradle 9
-        // Only pass the working directory if it is different from the default
-        if (!defaultWorkingDir.getAsFile().equals(getWorkingDir().getAsFile().get())) {
-            parameters.getWorkingDirectory().set(getWorkingDir());
-        }
+        parameters.getWorkingDirectory().set(getWorkingDir());
         parameters.getIgnoreExitValue().set(getIgnoreExitValue());
     }
 }

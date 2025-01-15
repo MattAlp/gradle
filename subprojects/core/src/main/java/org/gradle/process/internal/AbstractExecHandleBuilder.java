@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Deprecated. Will be removed in Gradle 9.0. Kept for now it's subclass is used by the Kotlin plugin.
@@ -66,7 +67,7 @@ public abstract class AbstractExecHandleBuilder implements BaseExecSpec {
         if (executable instanceof Provider) {
             getExecutable().set(((Provider<?>) executable).map(Object::toString));
         } else {
-            getExecutable().set(Providers.changing((Providers.SerializableCallable<String>) executable::toString));
+            getExecutable().set(Objects.toString(executable));
         }
         return this;
     }

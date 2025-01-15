@@ -44,7 +44,7 @@ import java.util.Map;
 
 public class DefaultProcessForkOptions implements ProcessForkOptions {
     // TODO(mlopatkin) this provider is a good candidate for CC deduplication
-    protected static final Provider<Map<String, String>> CURRENT_ENVIRONMENT = Providers.changing(DefaultClientExecHandleBuilder::getCurrentEnvironment);
+    public static final Provider<Map<String, String>> CURRENT_ENVIRONMENT = Providers.changing(DefaultClientExecHandleBuilder::getCurrentEnvironment);
 
     protected final PathToFileResolver resolver;
     private final Property<String> executable;

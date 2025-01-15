@@ -36,9 +36,9 @@ class ProviderCompatibleExecSpecTest extends ProviderCompatibleBaseExecSpecTestB
 
     @Override
     protected ProviderCompatibleExecSpec createSpecUnderTest() {
-        def execSpec = TestUtil.newInstance(DefaultExecSpec, TestUtil.objectFactory(tmpDir.testDirectory), TestFiles.pathToFileResolver(tmpDir.testDirectory)).tap {
+        def execSpec = TestUtil.newInstance(DefaultExecSpec, TestUtil.objectFactory(tmpDir.testDirectory), TestFiles.pathToFileResolver(tmpDir.testDirectory))
+        return TestUtil.newInstance(ProviderCompatibleExecSpec, execSpec).tap {
             commandLine("echo", "hello")
         }
-        return TestUtil.newInstance(ProviderCompatibleExecSpec, execSpec)
     }
 }

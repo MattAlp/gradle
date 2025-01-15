@@ -18,14 +18,12 @@
 
 package gradlebuild
 
-import org.gradle.api.provider.MapProperty
-import org.gradle.api.tasks.testing.Test
-import org.gradle.internal.os.OperatingSystem
-
 /**
  * TODO: Remove Suppress("UnusedImport") with Gradle 9.0
  */
 import org.gradle.kotlin.dsl.assign
+import org.gradle.api.tasks.testing.Test
+import org.gradle.internal.os.OperatingSystem
 
 
 val propagatedEnvironmentVariables = listOf(
@@ -117,19 +115,7 @@ val credentialsKeywords = listOf(
 
 
 fun Test.filterEnvironmentVariables() {
-    /**
-     * TODO: Remove with Gradle 9.0
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun Any.unwrap(): Map<String, Any> = when (this) {
-        is Map<*, *> -> this as Map<String, Any>
-        is MapProperty<*, *> -> this.get() as Map<String, Any>
-        else -> throw IllegalArgumentException("Can't unwrap: $this")
-    }
     environment = makePropagatedEnvironment()
-    environment.unwrap().forEach { (key, _) ->
-        require(credentialsKeywords.none { key.contains(it, true) }) { "Found sensitive data in filtered environment variables: $key" }
-    }
 }
 
 
@@ -142,5 +128,10 @@ fun makePropagatedEnvironment(): Map<String, String?> {
             result[key] = value
         }
     }
+
+    result.forEach { (key, _) ->
+        require(credentialsKeywords.none { key.contains(it, true) }) { "Found sensitive data in filtered environment variables: $key" }
+    }
+
     return result
 }

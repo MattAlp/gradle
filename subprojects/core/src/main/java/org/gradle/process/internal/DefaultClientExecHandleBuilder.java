@@ -19,6 +19,7 @@ package org.gradle.process.internal;
 import com.google.common.collect.Maps;
 import org.gradle.api.NonNullApi;
 import org.gradle.initialization.BuildCancellationToken;
+import org.gradle.internal.Cast;
 import org.gradle.internal.file.PathToFileResolver;
 import org.gradle.process.CommandLineArgumentProvider;
 import org.gradle.process.ProcessForkOptions;
@@ -206,7 +207,7 @@ public class DefaultClientExecHandleBuilder implements ClientExecHandleBuilder, 
     @SuppressWarnings("unchecked")
     public Map<String, Object> getEnvironment() {
         if (environment == null) {
-            setEnvironment((Map<String, Object>) (Map<String, ?>) getCurrentEnvironment());
+            setEnvironment(Cast.uncheckedCast(getCurrentEnvironment()));
         }
         return environment;
     }
