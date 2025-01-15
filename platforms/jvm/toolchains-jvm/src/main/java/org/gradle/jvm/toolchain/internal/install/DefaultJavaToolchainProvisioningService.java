@@ -33,6 +33,7 @@ import org.gradle.jvm.toolchain.JavaToolchainDownload;
 import org.gradle.jvm.toolchain.JavaToolchainResolver;
 import org.gradle.jvm.toolchain.JavaToolchainResolverRegistry;
 import org.gradle.jvm.toolchain.JavaToolchainSpec;
+import org.gradle.jvm.toolchain.internal.CurrentBuildPlatform;
 import org.gradle.jvm.toolchain.internal.DefaultJavaToolchainRequest;
 import org.gradle.jvm.toolchain.internal.JavaToolchainResolverRegistryInternal;
 import org.gradle.jvm.toolchain.internal.JdkCacheDirectory;
@@ -84,14 +85,14 @@ public class DefaultJavaToolchainProvisioningService implements JavaToolchainPro
         JdkCacheDirectory cacheDirProvider,
         ProviderFactory factory,
         BuildOperationRunner executor,
-        BuildPlatform buildPlatform
+        CurrentBuildPlatform currentBuildPlatform
     ) {
         this.toolchainResolverRegistry = (JavaToolchainResolverRegistryInternal) toolchainResolverRegistry;
         this.downloader = downloader;
         this.cacheDirProvider = (DefaultJdkCacheDirectory)cacheDirProvider;
         this.downloadEnabled = factory.gradleProperty(AUTO_DOWNLOAD).map(Boolean::parseBoolean);
         this.buildOperationRunner = executor;
-        this.buildPlatform = buildPlatform;
+        this.buildPlatform = currentBuildPlatform.toBuildPlatform();
     }
 
     @Override

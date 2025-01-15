@@ -112,9 +112,9 @@ public class JavaToolchainQueryService {
         FileFactory fileFactory,
         JavaToolchainProvisioningService provisioningService,
         ObjectFactory objectFactory,
-        BuildPlatform buildPlatform
+        CurrentBuildPlatform currentBuildPlatform
     ) {
-        this(registry, detector, fileFactory, provisioningService, objectFactory, Jvm.current().getJavaHome(), buildPlatform);
+        this(registry, detector, fileFactory, provisioningService, objectFactory, Jvm.current().getJavaHome(), currentBuildPlatform);
     }
 
     @VisibleForTesting
@@ -125,7 +125,7 @@ public class JavaToolchainQueryService {
         JavaToolchainProvisioningService provisioningService,
         ObjectFactory objectFactory,
         File currentJavaHome,
-        BuildPlatform buildPlatform
+        CurrentBuildPlatform currentBuildPlatform
     ) {
         this.registry = registry;
         this.detector = detector;
@@ -134,7 +134,7 @@ public class JavaToolchainQueryService {
         this.matchingToolchains = new ConcurrentHashMap<>();
         this.fallbackToolchainSpec = objectFactory.newInstance(CurrentJvmToolchainSpec.class);
         this.currentJavaHome = currentJavaHome;
-        this.buildPlatform = buildPlatform;
+        this.buildPlatform = currentBuildPlatform.toBuildPlatform();
     }
 
     public ProviderInternal<JavaToolchain> findMatchingToolchain(JavaToolchainSpec filter) {
